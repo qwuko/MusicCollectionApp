@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddTrackForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddTrackForm.Designer.cs">
+      <DependentUpon>AddTrackForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="MusicCollectionForm.cs">
       <SubType>Form</SubType>
     </Compile>
