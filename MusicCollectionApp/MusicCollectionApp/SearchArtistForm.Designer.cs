@@ -28,7 +28,7 @@
             this.artistLabel.Location = new System.Drawing.Point(10, 10);
 
             // artistTextBox
-            this.artistTextBox.Location = new System.Drawing.Point(10, 30);
+            this.artistTextBox.Location = new System.Drawing.Point(10, 35);
             this.artistTextBox.Width = 260;
 
             // okButton

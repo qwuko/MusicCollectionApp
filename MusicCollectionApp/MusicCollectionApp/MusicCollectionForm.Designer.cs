@@ -36,22 +36,22 @@
 
             // addTrackButton
             this.addTrackButton.Location = new System.Drawing.Point(10, 320);
-            this.addTrackButton.Size = new System.Drawing.Size(100, 25);
+            this.addTrackButton.Size = new System.Drawing.Size(100, 40);
             this.addTrackButton.Text = "Добавить трек";
 
             // removeTrackButton
             this.removeTrackButton.Location = new System.Drawing.Point(120, 320);
-            this.removeTrackButton.Size = new System.Drawing.Size(100, 25);
+            this.removeTrackButton.Size = new System.Drawing.Size(100, 40);
             this.removeTrackButton.Text = "Удалить трек";
 
             // searchByArtistButton
             this.searchByArtistButton.Location = new System.Drawing.Point(230, 320);
-            this.searchByArtistButton.Size = new System.Drawing.Size(120, 25);
+            this.searchByArtistButton.Size = new System.Drawing.Size(120, 40);
             this.searchByArtistButton.Text = "Поиск по исполнителю";
 
             // sortByYearButton
             this.sortByYearButton.Location = new System.Drawing.Point(360, 320);
-            this.sortByYearButton.Size = new System.Drawing.Size(120, 25);
+            this.sortByYearButton.Size = new System.Drawing.Size(120, 40);
             this.sortByYearButton.Text = "Сортировать по году";
 
             // MusicCollectionForm
