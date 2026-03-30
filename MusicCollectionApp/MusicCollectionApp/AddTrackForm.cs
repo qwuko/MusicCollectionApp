@@ -24,18 +24,32 @@ namespace MusicCollectionApp
 
         private void OkButton_Click(object sender, EventArgs e)
         {
-            if (int.TryParse(yearTextBox.Text, out int year))
+            if (!int.TryParse(yearTextBox.Text, out int year))
             {
-                Artist = artistTextBox.Text;
-                Title = titleTextBox.Text;
-                Genre = genreTextBox.Text;
+                MessageBox.Show("Пожалуйста, введите корректный год.",
+                    "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            string artist = artistTextBox.Text;
+            string title = titleTextBox.Text;
+            string genre = genreTextBox.Text;
+
+            try
+            {
+                var track = new MusicTrack(artist, title, genre, year);
+
+                Artist = artist;
+                Title = title;
+                Genre = genre;
                 Year = year;
                 DialogResult = DialogResult.OK;
                 Close();
             }
-            else
+            catch (ArgumentException ex)
             {
-                MessageBox.Show("Пожалуйста, введите корректный год.");
+                MessageBox.Show(ex.Message, "Ошибка ввода данных",
+                    MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 

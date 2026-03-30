@@ -19,7 +19,13 @@ public class MusicCollection
         listView.Items.Clear();
         foreach (var track in tracks)
         {
-            listView.Items.Add(new ListViewItem(new[] { track.Artist, track.Title, track.Genre, track.Year.ToString() }));
+            string artist = track.Artist ?? "";
+            string title = track.Title ?? "";
+            string genre = track.Genre ?? "";
+            string year = track.Year.ToString();
+
+            var item = new ListViewItem(new[] { artist, title, genre, year });
+            listView.Items.Add(item);
         }
     }
 
@@ -32,21 +38,30 @@ public class MusicCollection
 
     public void RemoveTrack(MusicTrack track)
     {
+        if (track == null)
+        {
+            MessageBox.Show("Ошибка: трек не указан.", "Ошибка",
+                MessageBoxButtons.OK, MessageBoxIcon.Error);
+            return;
+        }
+
         var existingTrack = tracks.FirstOrDefault(t =>
             t.Artist == track.Artist &&
             t.Title == track.Title &&
             t.Genre == track.Genre &&
             t.Year == track.Year);
 
-        if (tracks.Contains(track))
+        if (existingTrack != null)
         {
-            tracks.Remove(track);
+            tracks.Remove(existingTrack);
             LoadTracks();
-            MessageBox.Show("Трек удалён.");
+            MessageBox.Show("Трек удалён.", "Успешно",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         else
         {
-            MessageBox.Show("Трек не найден в коллекции.");
+            MessageBox.Show("Трек не найден в коллекции.", "Внимание",
+                MessageBoxButtons.OK, MessageBoxIcon.Warning);
         }
     }
 
