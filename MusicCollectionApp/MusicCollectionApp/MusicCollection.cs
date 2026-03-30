@@ -32,6 +32,12 @@ public class MusicCollection
 
     public void RemoveTrack(MusicTrack track)
     {
+        var existingTrack = tracks.FirstOrDefault(t =>
+            t.Artist == track.Artist &&
+            t.Title == track.Title &&
+            t.Genre == track.Genre &&
+            t.Year == track.Year);
+
         if (tracks.Contains(track))
         {
             tracks.Remove(track);
