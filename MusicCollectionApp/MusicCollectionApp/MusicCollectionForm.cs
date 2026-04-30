@@ -96,5 +96,39 @@ namespace MusicCollectionApp
         {
             musicCollection.SortByYear();
         }
+
+        private void exportButton_Click(object sender, EventArgs e)
+        {
+            using (SaveFileDialog saveDialog = new SaveFileDialog())
+            {
+                saveDialog.Filter = "CSV files (*.csv)|*.csv|PSV files (*.psv)|*.psv|Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                saveDialog.Title = "Экспорт музыкальной коллекции";
+                saveDialog.DefaultExt = "csv";
+                if (saveDialog.ShowDialog() == DialogResult.OK)
+                {
+                    musicCollection.ExportToFile(saveDialog.FileName);
+                    saveButton.Enabled = true;
+                }
+            }
+        }
+
+        private void importButton_Click(object sender, EventArgs e)
+        {
+            using (OpenFileDialog openDialog = new OpenFileDialog())
+            {
+                openDialog.Filter = "Все поддерживаемые файлы (*.csv;*.psv;*.txt)|*.csv;*.psv;*.txt|CSV files (*.csv)|*.csv|PSV files (*.psv)|*.psv|Text files (*.txt)|*.txt|All files (*.*)|*.*";
+                openDialog.Title = "Импорт музыкальной коллекции";
+                if (openDialog.ShowDialog() == DialogResult.OK)
+                {
+                    musicCollection.ImportFromFile(openDialog.FileName);
+                    saveButton.Enabled = true;
+                }
+            }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            musicCollection.SaveChanges();
+        }
     }
 }
