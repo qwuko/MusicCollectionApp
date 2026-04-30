@@ -53,6 +53,7 @@
     <Compile Include="MusicCollectionTests.cs" />
     <Compile Include="MusicTrackTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SaveTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
