@@ -133,42 +133,66 @@ public class MusicCollection
             string ext = Path.GetExtension(filePath).ToLower();
             char separator = GetSeparator(ext);
             var newTracks = new List<MusicTrack>();
+            bool headerChecked = false;
+            int lineNumber = 0;
+
             using (StreamReader sr = new StreamReader(filePath, Encoding.UTF8))
             {
                 string line;
-                bool isFirstLine = true;
                 while ((line = sr.ReadLine()) != null)
                 {
-                    if (isFirstLine && (line.StartsWith("Artist") || line.StartsWith("\"Artist\"")))
-                    {
-                        isFirstLine = false;
-                        continue;
-                    }
-                    isFirstLine = false;
+                    lineNumber++;
                     if (string.IsNullOrWhiteSpace(line)) continue;
 
-                    string[] parts = SplitLine(line, separator);
-                    if (parts.Length >= 4)
+                    if (!headerChecked)
                     {
-                        string artist = UnescapeField(parts[0].Trim());
-                        string title = UnescapeField(parts[1].Trim());
-                        string genre = UnescapeField(parts[2].Trim());
-                        if (int.TryParse(parts[3].Trim(), out int year))
+                        string[] headerParts = line.Split(separator);
+                        if (headerParts.Length != 4)
+                            throw new Exception($"Некорректный заголовок: ожидается 4 колонки, найдено {headerParts.Length}.");
+
+                        for (int i = 0; i < 4; i++)
                         {
-                            newTracks.Add(new MusicTrack(artist, title, genre, year));
+                            string actual = headerParts[i].Trim().Trim('"');
+                            string expected = i == 0 ? "Artist" : i == 1 ? "Title" : i == 2 ? "Genre" : "Year";
+                            if (!string.Equals(actual, expected, StringComparison.OrdinalIgnoreCase))
+                                throw new Exception($"Ошибка заголовка: ожидается '{expected}', найдено '{actual}'.");
                         }
+                        headerChecked = true;
+                        continue;
                     }
+
+                    string[] parts = line.Split(separator);
+                    if (parts.Length < 4)
+                        throw new Exception($"Строка {lineNumber}: ожидается 4 поля, найдено {parts.Length}.");
+
+                    string artist = parts[0].Trim();
+                    string title = parts[1].Trim();
+                    string genre = parts[2].Trim();
+                    if (!int.TryParse(parts[3].Trim(), out int year))
+                        throw new Exception($"Строка {lineNumber}: значение года '{parts[3].Trim()}' не является числом.");
+
+                    newTracks.Add(new MusicTrack(artist, title, genre, year));
                 }
             }
+
+            if (!headerChecked)
+                throw new Exception("Файл не содержит данных или отсутствует заголовок.");
+
+            if (newTracks.Count == 0)
+                throw new Exception("В файле не найдено корректных треков.");
+
             tracks = newTracks;
             LoadTracks();
             lastFilePath = filePath;
             lastFormat = ext.TrimStart('.');
-            MessageBox.Show($"Импорт выполнен. Загружено треков: {tracks.Count}", "Импорт", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            MessageBox.Show($"Импорт выполнен. Загружено треков: {tracks.Count}", "Импорт",
+                MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
         catch (Exception ex)
         {
-            MessageBox.Show($"Ошибка при импорте: {ex.Message}", "Ошибка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            MessageBox.Show($"Ошибка при импорте: {ex.Message}", "Ошибка",
+                    MessageBoxButtons.OK, MessageBoxIcon.Error);
         }
     }
 
