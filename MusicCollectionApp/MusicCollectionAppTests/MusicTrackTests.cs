@@ -8,32 +8,26 @@ namespace MusicCollectionAppTests
     public class MusicTrackTests
     {
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void YearLessThan1900_IsAllowed()
         {
             int year = 1799;
-
             var track = new MusicTrack("Artist", "Title", "Genre", year);
-
-            Assert.AreEqual(year, track.Year);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void YearGreaterThanCurrent_IsAllowed()
         {
             int year = DateTime.Now.Year + 1;
-
             var track = new MusicTrack("Artist", "Title", "Genre", year);
-
-            Assert.AreEqual(year, track.Year);
         }
 
         [TestMethod]
         public void Year1900_IsAllowed()
         {
             int year = 1800;
-
             var track = new MusicTrack("Artist", "Title", "Genre", year);
-
             Assert.AreEqual(year, track.Year);
         }
 
@@ -41,70 +35,56 @@ namespace MusicCollectionAppTests
         public void YearCurrent_IsAllowed()
         {
             int year = DateTime.Now.Year;
-
             var track = new MusicTrack("Artist", "Title", "Genre", year);
-
             Assert.AreEqual(year, track.Year);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void EmptyArtist_IsAllowed()
         {
             string artist = "";
-
             var track = new MusicTrack(artist, "Title", "Genre", 2020);
-
-            Assert.AreEqual(artist, track.Artist);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void WhitespaceArtist_IsAllowed()
         {
             string artist = "   ";
-
             var track = new MusicTrack(artist, "Title", "Genre", 2020);
-
-            Assert.AreEqual(artist, track.Artist);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void EmptyTitle_IsAllowed()
         {
             string title = "";
-
             var track = new MusicTrack("Artist", title, "Genre", 2020);
-
-            Assert.AreEqual(title, track.Title);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void WhitespaceTitle_IsAllowed()
         {
             string title = "   ";
-
             var track = new MusicTrack("Artist", title, "Genre", 2020);
-
-            Assert.AreEqual(title, track.Title);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void NegativeYear_IsAllowed()
         {
             int year = -100;
-
             var track = new MusicTrack("Artist", "Title", "Genre", year);
-
-            Assert.AreEqual(year, track.Year);
         }
 
         [TestMethod]
+        [ExpectedException(typeof(ArgumentException))]
         public void YearZero_IsAllowed()
         {
             int year = 0;
-
             var track = new MusicTrack("Artist", "Title", "Genre", year);
-
-            Assert.AreEqual(year, track.Year);
         }
 
         [TestMethod]
